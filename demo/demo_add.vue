@@ -25,8 +25,10 @@ export default {
 
 <style lang="less" scoped> 
     #add {
-      span {
-        font-size: 15px;
+      input {
+        border: none;
+        outline: none;
+        border-bottom: 1px solid gray;
       }
     }
 </style>

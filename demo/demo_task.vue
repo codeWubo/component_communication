@@ -1,7 +1,7 @@
 <template>
   <div class="task">
     <input type="checkbox" @change="checkbox" v-model="ckk" />
-    <span>{{ taskName }}</span>
+    <span>任务名:{{ task.name }} 任务标识:{{ task.id }}</span>
     <button class="debtn" @click="deleteTask">删除</button>
   </div>
 </template>
@@ -15,18 +15,9 @@ export default {
     };
   },
   props: {
-    taskName: {
-      type: String,
+    task: {
+      type: Object,
       required: true,
-    },
-    index: {
-      type: Number,
-      required: true,
-    },
-    ck: {
-      type: Boolean,
-      required: true,
-      default: false,
     },
   },
   // create() {
@@ -35,10 +26,9 @@ export default {
   computed: {
     ckk: {
       get() {
-        return this.ck;
+        return this.task.ck;
       },
       set(value) {
-        console.log(value);
         this.ckkbb = value;
       },
     },
@@ -46,8 +36,9 @@ export default {
   methods: {
     // 触发父组件的删除事件
     deleteTask() {
-    const obj = {
-        name: this.taskName,
+      const obj = {
+        id: this.task.id,
+        name: this.task.name,
         ck: this.ckkbb,
       };
       this.$emit("deleteTask", obj);
@@ -55,7 +46,8 @@ export default {
     // 选中状态
     checkbox() {
       const obj = {
-        name: this.taskName,
+        id: this.task.id,
+        name: this.task.name,
         ck: this.ckkbb,
       };
       this.$emit("check", obj);
