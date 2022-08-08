@@ -20,9 +20,6 @@ export default {
       required: true,
     },
   },
-  // create() {
-  //   this.ckkbb = this.ck;
-  // },
   computed: {
     ckk: {
       get() {

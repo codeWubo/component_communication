@@ -1,29 +1,29 @@
 <template>
   <div id="demo">
-    <add @add="addTask"></add>
+    <Add @add="addTask" :styleRed="styleRed"></Add>
     <div class="tasks">
-      <task
+      <Task
         v-for="item in taskArr"
         :key="item.id"
         :task="item"
         @deleteTask="deleteT"
         @check="checkTask"
-      ></task>
+      ></Task>
     </div>
-    <foot
+    <Foot
       ref="foot"
       :finish="finish"
       :all="all"
       @FcheckAll="checkA"
       @deletFinish="deleteFinish"
-    ></foot>
+    ></Foot>
   </div>
 </template>
 
 <script>
-import add from "./demo_add.vue";
-import task from "./demo_task.vue";
-import foot from "./demo_footer.vue";
+import Add from "./demo_add.vue";
+import Task from "./demo_task.vue";
+import Foot from "./demo_footer.vue";
 export default {
   name: "demo_app",
   data() {
@@ -32,6 +32,7 @@ export default {
       checkTackArr: [],
       finish: 0,
       all: 0,
+      styleRed: false,
     };
   },
   // 计算属性
@@ -55,6 +56,13 @@ export default {
   methods: {
     // 添加任务
     addTask(val) {
+      if (!val) {
+        this.styleRed = true;
+        setTimeout(() => {
+          this.styleRed = false;
+        }, 1000);
+        return;
+      }
       const task = {
         id: this.guid(),
         name: val,
@@ -100,7 +108,12 @@ export default {
       if (obj.ck) {
         // 选中的时候加入一个数组
         this.checkTackArr.push(obj);
-        console.log("选择后", this.checkTackArr);
+        this.taskArr.forEach((item) => {
+          if (item.id === obj.id && !item.ck) {
+            item.ck = true;
+          }
+        });
+        console.log("选择后", this.checkTackArr, this.taskArr);
       } else {
         // 取消的时候从数组删除
         this.checkTackArr.forEach((item, index) => {
@@ -117,8 +130,8 @@ export default {
       if (check) {
         this.taskArr.forEach((item) => {
           item.ck = true;
-          this.checkTackArr.push(item);
         });
+        this.checkTackArr = this.taskArr;
         console.log("全选后", this.checkTackArr, this.taskArr);
       } else {
         this.taskArr.forEach((item) => {
@@ -141,7 +154,7 @@ export default {
           }
         });
       });
-      console.log("删除之前",this.checkTackArr);
+      console.log("删除之前", this.checkTackArr);
       // Object.values()方法返回一个给定对象自身的所有可枚举属性值的数组
       this.taskArr = Object.values(this.taskArr);
       this.checkTackArr = Object.values(this.checkTackArr);
@@ -150,9 +163,9 @@ export default {
     },
   },
   components: {
-    add,
-    task,
-    foot,
+    Add,
+    Task,
+    Foot,
   },
 };
 </script>

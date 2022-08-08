@@ -29,8 +29,18 @@ export default {
       required: true,
     },
   },
+  watch:{  
+    finish(newValue){
+      if(newValue === this.all && newValue != 0) {
+        this.quanbu = true;
+      } else {
+        this.quanbu = false;
+      }
+    }
+  },
   methods: {
     checkAll() {
+      console.log(this.quanbu);
       // 触发父组件的全选
       this.$emit("FcheckAll", this.quanbu);
     },
